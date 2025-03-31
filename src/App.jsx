@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Error from "./pages/Error";
 import Signout from "./pages/SignOut";
 import Signup from "./pages/SIgnUp";
+import Events from "./pages/Events";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" component={Home}/>
         <Route path="/signin" component={SignIn}/>
         <Route path="/signout" component={Signout}/>
+        <Route path="/events" component={Events}/>
         <Route path="/error" component={Error}/>
         <Route path="/signup" component={Signup}/>
         <Route path="*" component={()=> <Navigate href="/error"/>}/>
@@ -40,6 +42,9 @@ function Layout(props) {
       </div>
       <nav class="flex-1 text-right justify-end">
         <Show when={user()}>
+          <Show when={user().role == "admin"}>
+          <A class="p-2 bg-amber-500 text-gray-50 font-bold rounded hover:brightness-50" href="/events">Događaji</A>
+          </Show>
         <A class="p-2 bg-pink-500 text-gray-50 font-bold rounded hover:brightness-50" href="/signout">Odjava</A>
         </Show>
         <Show when={!user()}>

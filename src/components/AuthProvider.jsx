@@ -19,6 +19,7 @@ export function AuthProvider(props){
         try {
             const result = await pb.collection("users").authRefresh();
             const userData = result.record;
+            console.log();
             setUser(userData);
         } catch (error) {
             setUser(null);
