@@ -7,6 +7,7 @@ import Error from "./pages/Error";
 import Signout from "./pages/SignOut";
 import Signup from "./pages/SIgnUp";
 import Events from "./pages/Events";
+import Button from "./components/Button";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/events" component={Events}/>
         <Route path="/error" component={Error}/>
         <Route path="/signup" component={Signup}/>
+        <Route path="/button" component={Button}/>
         <Route path="*" component={()=> <Navigate href="/error"/>}/>
 
 
@@ -43,13 +45,13 @@ function Layout(props) {
       <nav class="flex-1 text-right justify-end">
         <Show when={user()}>
           <Show when={user().role == "admin"}>
-          <A class="p-2 bg-amber-500 text-gray-50 font-bold rounded hover:brightness-50" href="/events">Događaji</A>
+          <Button href="/events">Događaji</Button>
           </Show>
-        <A class="p-2 bg-pink-500 text-gray-50 font-bold rounded hover:brightness-50" href="/signout">Odjava</A>
+        <Button href="/signout">Odjava</Button>
         </Show>
         <Show when={!user()}>
-          <A class="p-2 bg-amber-500 text-gray-50 font-bold rounded hover:brightness-50" href="/signin">Prijava</A>
-          <A class="p-2 bg-amber-500 text-gray-50 font-bold rounded hover:brightness-50" href="/signup">Rergistracija</A>
+          <Button href="/signin">Prijava</Button>
+          <Button href="/signup">Rergistracija</Button>
 
         </Show>
       </nav>

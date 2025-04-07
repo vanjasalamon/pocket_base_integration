@@ -1,7 +1,8 @@
-import { createSignal, Show } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { pb } from "../services/pocketbase";
 import { useAuth } from "../components/AuthProvider";
 import AlertMessage from "../components/AlertMessage";
+import Button from "../components/Button";
 
 export default function Events(props){
 
@@ -9,6 +10,47 @@ export default function Events(props){
         const user = useAuth();
         setSuccess(false);
         setError(false);
+
+        onMount(async ()=> {
+            await load();
+        });
+
+        createEffect(() => {
+            if (success() === true) {
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 3000)
+            }
+        })
+
+        async function load() {
+            setError(false);
+            try {
+                const result = await pb.collection("events").getFullList({
+                    sort: "-created",
+                });
+                setItems(result);
+            } catch (error) {
+                console.log(error);
+                setError(true);
+            }
+        }
+
+        async function deleteItem(item) {
+            setError(false);
+            try {
+                await pb.collection("events").delete(item.id);
+                await load();
+            } catch (error) {
+                console.log(error);
+                setError(true);
+            }
+        }
+
+        function upadateItem(item) {
+            setSelected(null);
+            setSelected(item);
+        }
 
 
         event.preventDefault();
@@ -19,6 +61,7 @@ export default function Events(props){
         const start = formData.get("start");
         const maxSeats = formData.get("maxSeats");
 
+      
         try{
             const record = await pb.collection("events").create({
                 name: name,
