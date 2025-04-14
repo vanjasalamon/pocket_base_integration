@@ -69,7 +69,7 @@ export default function Home(){
 
     }
 
-    function signout(item) {
+    async function signout(item) {
         setError(false);
 
         try {
